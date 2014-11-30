@@ -1,0 +1,148 @@
+
+This is pmidi - a command line midi player for ALSA
+
+Written by Steve Ratcliffe <sr@parabola.me.uk>
+Web: http://www.parabola.me.uk/alsa/pmidi.html
+Web: http://sourceforge.net/projects/pmidi
+
+Modified by Kevin Marquet to obtain a more understandable build.
+
+See the file COPYING for licence details (GPL).
+
+Build and install
+-----------------
+
+See the INSTALL file for full details.  Normally you just need to use the
+following command:
+
+	make
+
+
+Before use
+----------
+
+1.   First check that the correct sequencer modules are
+	 loaded for your sound card:
+
+	 - For a card with an external Midi connection,
+	   you need to load snd-seq-midi.
+	 - For the OPL2/3 internal synthesiser
+	   you need to load snd-synth-opl3.
+	 - For the AWE32/64 internal synthesiser
+	   you need to load snd-synth-emu8000. 
+	 - For the SB Live! internal synthesiser
+	   you need to load snd-synth-emu10k1.
+	 - (Let me know of any more)
+
+2.a  If you have an AWE32/64 or SB Live! you will need to load the
+     sounds with sfxload in the same way as for the standard kernel
+     drivers. 
+2.b  If you have the OPL3 FM synthesiser you will have to load the
+     FM instruments with sbiload.  See note below.
+
+3.   Make sure that the synth in the mixer is turned
+     up and unmuted if appropriate. 
+
+
+Usage
+-----
+
+	pmidi [-p client:port ...] [-l] [-d delay] file ...
+
+	  -p client:port  - A alsa client and port number to send midi to
+	  -l              - List possible output ports that could be used
+	  -d delay        - Delay after song ends (default 2 sec)
+
+
+Because you may have more than one sound card and each sound
+card may have several MIDI connections, you have to tell pmidi
+which one to use.
+
+First find out what the possibilities are for your system:
+
+If you run: 
+	
+	pmidi -l 
+
+it will give you a list of the possible devices that it
+can play to. On my system I get: 
+	
+    Port     Client name                       Port name
+    64:0     Rawmidi 0 - EMU10K1 MPU-401 (U    EMU10K1 MPU-401 (UART)
+    65:0     Emu10k1 WaveTable                 Emu10k1 Port 0
+    65:1     Emu10k1 WaveTable                 Emu10k1 Port 1
+    65:2     Emu10k1 WaveTable                 Emu10k1 Port 2
+    65:3     Emu10k1 WaveTable                 Emu10k1 Port 3
+    128:0    FLUID Synth (28152)               Synth input port (28152)
+    129:0    Client-129                        TiMidity port 0
+    129:1    Client-129                        TiMidity port 1
+
+Any of the port numbers in the first column can be used with pmidi. In
+the example above the first one is the external Midi port, and the next
+four are the internal wave table synthesiser on the SoundBlaster Live!
+
+If you don't see anything listed then check that the correct ALSA modules
+are loaded as in the section "Before use".
+
+Running pmidi
+-------------
+
+You specify the port or ports to use with the -p option,
+or by setting the environment variable ALSA_OUTPUT_PORTS. 
+
+For example to use port 0 on client 65: 
+	
+	pmidi -p 65:0 song.mid 
+
+or 
+	
+	export ALSA_OUTPUT_PORTS=65:0 
+	pmidi song.mid 
+
+
+A list of client ports can be supplied, which will be used
+if the midi file contains port select sequences. 
+	
+	pmidi -p 65:0,65:1,65:2,65:3 song.mid 
+
+You can also use spaces to separate with suitable quoting
+on the command line. 
+
+OPL3 FM synthesiser
+-------------------
+
+(This note was provided by Dmitrii Sadovskii)
+
+This is what has to be done to use the OPL3 FM synthesiser with pmidi
+(provided that the ALSA's respective card module is already loaded)
+
+# modprobe -k snd-synth-opl3
+
+> sbiload -l (same as pmidi -l)
+ Port     Client name                       Port name
+ 64:0     External MIDI 0                   MIDI 0-0
+ 65:0     OPL3 FM synth                     OPL3 Port
+> sbiload -p65:0 --opl3 std.o3 drums.o3
+> pmidi -p65:0 sample.midi
+
+sbiload:
+	alsa-tools/seq/sbiload/
+	Written by Uros Bizjak <uros@kss-loka.si>
+	Web: http://www.kss-loka.si/~uros/sbiload.html
+	sbiload works with ALSA driver 0.9.0beta2 and later.
+	Use it with native ALSA sequencers, such as pmidi-1.5.1
+	or later.
+
+Laptops:
+	the sound card (or the driver?) does not keep the instrument
+	patches after suspend, so sbiload should be called at resume
+	(as well as alsactl restore)
+
+It should be said that ALSA+pmidi plays with better quality than OSS/Free
+but that in general FM synthesisers are not great for good midi.
+
+
+Where to report bugs and feedback
+---------------------------------
+
+Please report any problems to sr@parabola.me.uk

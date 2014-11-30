@@ -1,0 +1,63 @@
+In file included from notmain.c:1:0:
+process.h:25:2: erreur: unknown type name ‘pcb_struct’
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:6: erreur: nested redefinition of ‘enum STATE’
+process.h:6:6: erreur: redeclaration of ‘enum STATE’
+In file included from notmain.c:1:0:
+process.h:6:6: note: originally defined here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:13: erreur: redeclaration of enumerator ‘NEW’
+In file included from notmain.c:1:0:
+process.h:6:13: note: previous definition of ‘NEW’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:18: erreur: redeclaration of enumerator ‘READY’
+In file included from notmain.c:1:0:
+process.h:6:18: note: previous definition of ‘READY’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:25: erreur: redeclaration of enumerator ‘RUNNING’
+In file included from notmain.c:1:0:
+process.h:6:25: note: previous definition of ‘RUNNING’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:34: erreur: redeclaration of enumerator ‘WAITING’
+In file included from notmain.c:1:0:
+process.h:6:34: note: previous definition of ‘WAITING’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:6:43: erreur: redeclaration of enumerator ‘TERMINATED’
+In file included from notmain.c:1:0:
+process.h:6:43: note: previous definition of ‘TERMINATED’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:8:8: erreur: redefinition of ‘struct pcb_struct’
+In file included from notmain.c:1:0:
+process.h:8:8: note: originally defined here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:25:2: erreur: unknown type name ‘pcb_struct’
+process.h:29:27: erreur: conflicting types for ‘pcb_s’
+In file included from notmain.c:1:0:
+process.h:29:27: note: previous declaration of ‘pcb_s’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:31:6: erreur: conflicting types for ‘switch_to’
+In file included from notmain.c:1:0:
+process.h:31:6: note: previous declaration of ‘switch_to’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:33:6: erreur: conflicting types for ‘init_pcb’
+In file included from notmain.c:1:0:
+process.h:33:6: note: previous declaration of ‘init_pcb’ was here
+In file included from sched.h:1:0,
+                 from notmain.c:3:
+process.h:35:6: erreur: conflicting types for ‘start_pcb’
+In file included from notmain.c:1:0:
+process.h:35:6: note: previous declaration of ‘start_pcb’ was here
+notmain.c: In function ‘notmain’:
+notmain.c:38:23: erreur: expected expression before ‘void’
+notmain.c:39:24: erreur: expected expression before ‘void’
+make: *** [notmain.o] Erreur 1

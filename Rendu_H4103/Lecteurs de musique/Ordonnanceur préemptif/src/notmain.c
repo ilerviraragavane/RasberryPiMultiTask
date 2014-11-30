@@ -1,0 +1,61 @@
+#include "hw/hw.h"
+#include "music/music.h"
+#include "scheduler/sched.h"
+
+extern void play_music();
+
+//------
+
+void
+processus_A( )
+{
+  while (1) {
+   led_on();
+   int i = 0;
+   while(i++<100000);
+   i = 0;
+   led_off();
+   while(i++<100000);
+   led_on();
+   i = 0;
+   while(i++<100000);
+   led_off();
+   i = 0;
+   while(i++<400000);
+  }
+}
+
+void
+processus_B( )
+{
+  while (1) {
+  led_on();
+  int i = 0;
+  while(i++<100000);
+  led_off();
+  i = 0;
+  while(i++<400000);
+  }
+}
+
+//------------------------------------------------------------------------
+int
+notmain ( void )
+{
+  DISABLE_IRQ();
+  hw_init();
+  music_init();
+
+  create_process(processus_A, 512);
+  create_process(processus_A, 512);
+
+  create_process(play_music, 2048);
+
+  create_process(processus_B, 512);
+  create_process(processus_B, 512);
+
+  start_sched();
+
+  return(0);
+}
+

@@ -1,0 +1,15 @@
+layout split
+fs cmd
+wh cmd 12
+target remote:1234
+b start_kernel
+b ctx_switch
+b manger
+b penser
+B balayer
+watch mutexs[0]->disponible
+watch mutexs[1]->disponible
+watch mutexs[2]->disponible
+watch mutexs[3]->disponible
+watch mutexs[4]->disponible
+source include.gdb
